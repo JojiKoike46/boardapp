@@ -1,24 +1,38 @@
 import * as React from "react";
+import * as https from "https";
+import axios from "axios";
 
 const API =
-  "https://newgate-ai.com/fmi/data/vLatest/databases/API_iijima/sessions";
+  "https://35.73.108.189/fmi/data/vLatest/databases/DataAPI_Sample/sessions";
 
 const Users = () => {
   //const [token, setToken] = React.useState([]);
 
   React.useEffect(() => {
     (async () => {
+      /*
+      const httpsAgent = new https.Agent({ rejectUnauthorized: false });
+      const response = await axios
+        .post(API, {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic cmVzdDpwYXNzd29yZA==",
+          },
+          httpsAgent,
+        })
+        .then((res) => res.json());
+        */
+
       const response = await fetch(API, {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
-        credentials: "include",
         headers: {
-          Accept: "*/*",
           "Content-Type": "application/json",
-          Authorization: "Basic YXBpX2Rldl91c2VyOmp6QDgwU3VwcmE=",
+          Authorization: "Basic cmVzdDpwYXNzd29yZA==",
         },
       }).then((res) => res.json());
+
       console.log(response.response.token);
       //setUsers(response.results);
     })();
