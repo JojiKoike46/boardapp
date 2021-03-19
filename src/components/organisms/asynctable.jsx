@@ -2,11 +2,14 @@ import * as React from "react";
 import * as https from "https";
 import axios from "axios";
 
-const API =
-  "https://35.73.108.189/fmi/data/vLatest/databases/DataAPI_Sample/sessions";
+const API = process.env.REACT_APP_BEARER_TOKEN_API;
+const USER = process.env.REACT_APP_USER;
+const PASSWORD = process.env.REACT_APP_PASSWORD;
 
 const Users = () => {
-  //const [token, setToken] = React.useState([]);
+  const [token, setToken] = React.useState([]);
+
+  const BASE64_ENCODED_USER_PASSWORD = btoa(USER + ":" + PASSWORD);
 
   React.useEffect(() => {
     (async () => {
@@ -22,19 +25,18 @@ const Users = () => {
         })
         .then((res) => res.json());
         */
-
       const response = await fetch(API, {
         method: "POST",
         mode: "cors",
         cache: "no-cache",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Basic cmVzdDpwYXNzd29yZA==",
+          Authorization: "Basic " + BASE64_ENCODED_USER_PASSWORD,
         },
       }).then((res) => res.json());
 
       console.log(response.response.token);
-      //setUsers(response.results);
+      setToken(response.response.token);
     })();
   }, []);
 
@@ -47,7 +49,7 @@ const Users = () => {
   }, []);
   */
 
-  return <div>Hello</div>;
+  return <div>{token}</div>;
 };
 
 export default Users;
